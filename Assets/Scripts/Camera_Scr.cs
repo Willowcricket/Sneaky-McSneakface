@@ -19,10 +19,10 @@ public class Camera_Scr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FallowPlayer();
+        FollowPlayer();
     }
 
-    private void FallowPlayer()
+    private void FollowPlayer()
     {
         if (Player.transform.position.x > -16 && Player.transform.position.x < 16)
         {
