@@ -55,19 +55,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         InputHandler();
-        //FollowCamera();
-    }
-
-    private void FollowCamera()
-    {
-        //if (Camera.transform.position.x > -16 && Camera.transform.position.x < 16)
-        //{
-        //TitleBG_Img.transform.position = new Vector3(Camera.transform.position.x, TitleBG_Img.transform.position.y, -10);
-        //}
-        //if (Camera.transform.position.y > -16.5 && Camera.transform.position.y < 16.5)
-        //{
-        //TitleBG_Img.transform.position = new Vector3(TitleBG_Img.transform.position.x, Camera.transform.position.y, -10);
-        //}
     }
 
     private void InputHandler()
