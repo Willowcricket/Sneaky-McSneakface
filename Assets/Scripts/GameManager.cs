@@ -6,18 +6,31 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
     public GameObject TitleBG_Img;
     public GameObject TitleStart_Bttn;
     public GameObject Title_Txt;
 
     public GameObject Camera;
+    public GameObject Player;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         SetStartMenuElems();
         SetCamera();
-        DisableSME();
     }
 
     private void SetCamera()

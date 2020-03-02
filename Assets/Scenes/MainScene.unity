@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 1489455234}
   - component: {fileID: 1489455233}
   - component: {fileID: 1489455232}
+  - component: {fileID: 1489455235}
   m_Layer: 0
   m_Name: Enemy_Obj
   m_TagString: Untagged
@@ -379,15 +380,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67ade85883b0da4d877eebb08b56671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  feildOfView: 45
   tf: {fileID: 0}
-  target: {fileID: 0}
+  target: {fileID: 2124767855}
   AIState: Idle
-  HitPoints: 0
-  AttackRange: 0
-  HealthCutOff: 0
+  HitPoints: 100
+  AttackRange: 4
+  HealthCutOff: 25
   Speed: 5
   RestingHealRate: 1
-  MaxHP: 0
+  MaxHP: 100
 --- !u!212 &1489455233
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -451,6 +453,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &1489455235
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489455231}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.03, y: 0.84}
+    newSize: {x: 1.03, y: 0.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.505, y: 0.089999996}
+      - {x: 0.48499998, y: 0.16}
+      - {x: 0.475, y: 0.19}
+      - {x: 0.45499998, y: 0.26}
+      - {x: 0.445, y: 0.29}
+      - {x: 0.42499998, y: 0.35999998}
+      - {x: 0.39499998, y: 0.42}
+      - {x: 0.285, y: 0.42}
+      - {x: 0.255, y: 0.41}
+      - {x: 0.095, y: 0.34}
+      - {x: -0.105, y: 0.35}
+      - {x: -0.175, y: 0.28}
+      - {x: -0.255, y: 0.42}
+      - {x: -0.435, y: 0.42}
+      - {x: -0.515, y: 0.07}
+      - {x: -0.515, y: -0.08}
+      - {x: -0.275, y: -0.37}
+      - {x: -0.125, y: -0.42}
+      - {x: 0.125, y: -0.42}
+      - {x: 0.275, y: -0.38}
+      - {x: 0.515, y: -0.08}
+      - {x: 0.515, y: 0.06}
 --- !u!1 &1576335533
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,10 +717,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5922a5b0e2e3da147bf6dfb2151e450b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TitleBG_Img: {fileID: 0}
-  TitleStart_Bttn: {fileID: 0}
-  Title_Txt: {fileID: 0}
+  TitleBG_Img: {fileID: 913861821}
+  TitleStart_Bttn: {fileID: 1830764316}
+  Title_Txt: {fileID: 2001811492}
   Camera: {fileID: 0}
+  Player: {fileID: 2124767852}
 --- !u!4 &1872198539
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,6 +1123,8 @@ GameObject:
   - component: {fileID: 2124767855}
   - component: {fileID: 2124767854}
   - component: {fileID: 2124767853}
+  - component: {fileID: 2124767857}
+  - component: {fileID: 2124767856}
   m_Layer: 0
   m_Name: Player_Obj
   m_TagString: Untagged
@@ -1158,3 +1210,66 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &2124767856
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124767852}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &2124767857
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124767852}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.04, y: 0.84}
+    newSize: {x: 1.04, y: 0.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.52, y: -0.02}
+      - {x: 0.26999998, y: 0.42}
+      - {x: 0.03, y: 0.42}
+      - {x: 0.07, y: 0.26999998}
+      - {x: -0.03, y: 0.35}
+      - {x: -0.049999997, y: 0.42}
+      - {x: -0.26, y: 0.42}
+      - {x: -0.28, y: 0.41}
+      - {x: -0.52, y: -0.03}
+      - {x: -0.52, y: -0.17999999}
+      - {x: -0.29, y: -0.26}
+      - {x: -0.19, y: -0.37}
+      - {x: -0.049999997, y: -0.42}
+      - {x: 0.07, y: -0.42}
+      - {x: 0.17999999, y: -0.35}
+      - {x: 0.37, y: -0.21}
+      - {x: 0.52, y: -0.17999999}

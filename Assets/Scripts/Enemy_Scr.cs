@@ -7,6 +7,7 @@ using UnityEngine.Experimental.XR;
 
 public class Enemy_Scr : MonoBehaviour
 {
+    public float feildOfView = 45f;
     //Tracks Enemy_Obj Transform
     public Transform tf;
     //Tracks Player_Obj/target
@@ -35,6 +36,7 @@ public class Enemy_Scr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CanHear(GameManager.instance.Player);
         if (AIState == "Idle")
         {
             //Does Behavior
@@ -106,5 +108,41 @@ public class Enemy_Scr : MonoBehaviour
     public bool IsInRange()
     {
         return (Vector3.Distance(tf.position, target.position) <= AttackRange);
+    }
+
+    public bool CanHear(GameObject target)
+    {
+        NoiseMaker_Scr noise = target.GetComponent<NoiseMaker_Scr>();
+        if (noise != null)
+        {
+            float adjustedVolumeDistance =
+                noise.volumeDistance - Vector3.Distance(tf.position, target.transform.position);
+            if (adjustedVolumeDistance > 0)
+            {
+                Debug.Log("I heard the noise");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool CanSee(GameObject target)
+    {
+        Vector3 vectorToTarget = target.transform.position - transform.position;
+        float angleToTarget = Vector3.Angle(vectorToTarget, tf.up);
+        if (angleToTarget <= feildOfView)
+        {
+            //Is target in sight?
+        }
+        return false;
+    }
+
+    public void OnCollision(Collider other)
+    {
+        if (other == target)
+        {
+            Debug.Log("Enemy Hit Target");
+            Destroy(other);
+        }
     }
 }
