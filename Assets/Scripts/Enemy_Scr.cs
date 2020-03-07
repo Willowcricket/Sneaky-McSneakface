@@ -7,42 +7,56 @@ using UnityEngine.Experimental.XR;
 
 public class Enemy_Scr : MonoBehaviour
 {
+    //Track the field of View
     public float feildOfView = 45f;
+
     //Tracks Enemy_Obj Transform
     public Transform tf;
+
     //Tracks Player_Obj/target
     public Transform target;
+
     //Tracks AI State
     public string AIState = "Idle";
+
     //Tracks Enemy_Obj health
     public float HitPoints;
-    //Tracks Attack Range
-    public float AttackRange;
+
     //Tracks Health Cut Off
     public float HealthCutOff;
+
     //Tracks Enemy_Obj movement speed
-    public float Speed = 5.0f;
+    public float Speed = 3.0f;
+
+    //Tracks Enemy_Obj rotation speed
+    public float rotationSpeed = 90.0f;
+
     //Tracks Rate of Healing
     public float RestingHealRate = 1.0f;
+
     //Tracks Max HP
     public float MaxHP;
 
     // Start is called before the first frame update
     void Start()
     {
+        //Setting Transform
         tf = gameObject.GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CanHear(GameManager.instance.Player);
         if (AIState == "Idle")
         {
             //Does Behavior
             Idle();
             //Attack Player_Obj
-            if (IsInRange())
+            if (CanHear(GameManager.instance.Player))
+            {
+                ChangeState("Seek");
+            }
+            else if (CanSee(GameManager.instance.Player))
             {
                 ChangeState("Seek");
             }
@@ -67,7 +81,7 @@ public class Enemy_Scr : MonoBehaviour
                 ChangeState("Rest");
             }
             //Stay
-            if (!IsInRange())
+            if (!CanHear(GameManager.instance.Player) && !CanSee(GameManager.instance.Player))
             {
                 ChangeState("Idle");
             }
@@ -96,18 +110,36 @@ public class Enemy_Scr : MonoBehaviour
     public void Seek()
     {
         //Move towards Player_Obj/target
+        if (target == null)
+        {
+            target = GameManager.instance.Player.transform;
+        }
         Vector3 vectorToTarget = target.position - tf.position;
         tf.position += vectorToTarget.normalized * Speed * Time.deltaTime;
+        rotateTowards(target, false);
     }
 
+    //So that the Enemy looks toward the Player
+    public void rotateTowards(Transform target, bool isInstant)
+    {
+        Vector3 direction = target.position - transform.position;
+        direction.Normalize();
+        float zAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90);
+        if (!isInstant)
+        {
+            Quaternion targetLocation = Quaternion.Euler(0, 0, zAngle);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetLocation, rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 0, zAngle);
+        }
+    }
+
+    //State Changer
     public void ChangeState(string newState)
     {
         AIState = newState;
-    }
-
-    public bool IsInRange()
-    {
-        return (Vector3.Distance(tf.position, target.position) <= AttackRange);
     }
 
     public bool CanHear(GameObject target)
@@ -128,21 +160,29 @@ public class Enemy_Scr : MonoBehaviour
 
     public bool CanSee(GameObject target)
     {
-        Vector3 vectorToTarget = target.transform.position - transform.position;
+        Vector3 vectorToTarget = target.transform.position - tf.position;
         float angleToTarget = Vector3.Angle(vectorToTarget, tf.up);
         if (angleToTarget <= feildOfView)
         {
-            //Is target in sight?
+            RaycastHit2D hitInfo = Physics2D.Raycast(tf.position, vectorToTarget, 6.0f);
+            if (hitInfo.distance > 0.0f)
+            {
+                Debug.Log("I see the target");
+                return true;
+            }
         }
         return false;
     }
 
-    public void OnCollision(Collider other)
+    //Hits the player
+    void OnCollisionEnter2D(Collision2D other)
     {
-        if (other == target)
+        Debug.Log("Enemy Hit Player");
+        if (other.gameObject.tag == "Player")
         {
-            Debug.Log("Enemy Hit Target");
-            Destroy(other);
+            Destroy(other.gameObject);
+            this.gameObject.transform.position = new Vector3(0, 10, -1);
+            this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

@@ -6,14 +6,11 @@ using UnityEngine;
 public class Camera_Scr : MonoBehaviour
 {
     public GameObject Player;
-
+   
     // Start is called before the first frame update
     void Start()
     {
-        if (Player == null)
-        {
-            Player = GameObject.Find("Player_Obj");
-        }
+
     }
 
     // Update is called once per frame
@@ -24,6 +21,10 @@ public class Camera_Scr : MonoBehaviour
 
     private void FollowPlayer()
     {
+        if (Player == null)
+        {
+            Player = GameManager.instance.Player;
+        }
         if (Player.transform.position.x > -16 && Player.transform.position.x < 16)
         {
             this.gameObject.transform.position = new UnityEngine.Vector3(Player.transform.position.x, this.transform.position.y, -10);
